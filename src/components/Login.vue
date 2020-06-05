@@ -19,8 +19,8 @@
         </el-form-item>
         <!--          按钮区域-->
         <div class="btn">
-          <el-button type="primary" @click="login">登录</el-button>
           <el-button type="info" @click="resetForm">重置</el-button>
+          <el-button type="primary" @click="login">登录</el-button>
         </div>
       </el-form>
     </div>
@@ -52,26 +52,31 @@
       }
     },
     methods: {
-      //重置表单数据
+
+      /**
+       * 重置表单数据
+       */
       resetForm() {
         // console.log(this)
         this.$refs.loginFormRef.resetFields();
       },
-      //预校验
+      /**
+       * 发送登录请求
+       */
       login() {
         this.$refs.loginFormRef.validate(async valid => {
-          if (valid) {
-            const {data: res} = await this.$http.post('login', this.loginForm);
-            if (res.meta.status === 200) {
-              this.$message.success(`${res.meta.msg}`)
-            } else {
-              this.$message.error(`${res.meta.msg}`)
-            }
-            //获取token并保存在sessionStorage中
-            window.sessionStorage.setItem('token', `${res.data.token}`);
-            //通过编程式导航跳转到后台主页，路径是/home
-            this.$router.push('/home')
+          //预校验
+          if (!valid) return
+          const {data: res} = await this.$http.post('login', this.loginForm);
+          if (res.meta.status === 200) {
+            this.$message.success(`${res.meta.msg}`)
+          } else {
+            this.$message.error(`${res.meta.msg}`)
           }
+          //获取token并保存在sessionStorage中
+          window.sessionStorage.setItem('token', `${res.data.token}`);
+          //通过编程式导航跳转到后台主页，路径是/home
+          this.$router.push('/home')
         })
       }
     }

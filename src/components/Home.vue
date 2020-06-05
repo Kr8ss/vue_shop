@@ -10,17 +10,21 @@
       <!-- 页面主体区域-->
       <el-container>
         <!-- 侧边栏-->
-        <el-aside width="200px">
+        <el-aside :width="isCollapse?'65px':'200px'">
           <!-- 侧边栏菜单区域-->
+          <div class="fold" @click="fold">
+            |||
+          </div>
           <el-menu
-            unique-opened="true"
-            default-active="2"
+            :unique-opened="true"
+            :default-active="$route.path"
             class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
             background-color="#333744"
             text-color="#fff"
-            active-text-color="#54B1FF">
+            active-text-color="#54B1FF"
+            :collapse="isCollapse"
+            :collapse-transition='false'
+            :router="true">
             <!--一级菜单-->
             <el-submenu :index="item.id + ''" v-for="item in menuList" :key=item.id>
               <!--一级菜单模板-->
@@ -29,7 +33,7 @@
                 <span>{{item.authName}}</span>
               </template>
               <!-- 二级菜单-->
-              <el-menu-item :index="menuItem.id + ''" v-for="menuItem in item.children" :key=menuItem.id>
+              <el-menu-item :index="'/' + menuItem.path" v-for="menuItem in item.children" :key=menuItem.id>
                 <!--二级菜单模板-->
                 <template slot="title">
                   <!--图标-->
@@ -42,7 +46,9 @@
           </el-menu>
         </el-aside>
         <!--        右侧内容主体-->
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -62,6 +68,7 @@
           "102": 'icon iconfont icon-dingdanguanli',
           "145": 'icon iconfont icon-shujutongji',
         },
+        isCollapse: false,
       }
     },
     //创建结束后获取数据
@@ -69,6 +76,7 @@
       this.getMenuList()
     },
     methods: {
+      //退出登录
       loginOut() {
         //清除sessionStorage
         window.sessionStorage.clear();
@@ -81,10 +89,14 @@
         // console.log(res)
         if (res.meta.status === 200) {
           this.menuList = res.data;
-          console.log(this.menuList)
+          // console.log(this.menuList)
         } else {
           this.$message.error(res.meta.msg);
         }
+      },
+      //点击折叠
+      fold() {
+        this.isCollapse = !this.isCollapse
       }
     }
   }
@@ -140,5 +152,16 @@
 
   .icon {
     margin-right: 15px;
+  }
+
+  .fold {
+    background-color: #4B5064;
+    font-size: 10px;
+    text-align: center;
+    line-height: 25px;
+    color: white;
+    /*文本间距*/
+    letter-spacing: 0.2em;
+    cursor: pointer;
   }
 </style>

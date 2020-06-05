@@ -4,3 +4,18 @@ html, body, #app {
     margin: 0;
     padding: 0;
 }
+/*
+卡片与面包屑的距离
+*/
+.el-breadcrumb {
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.el-table {
+
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 15px;
+
+}
