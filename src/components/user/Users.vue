@@ -72,7 +72,7 @@
     <!--    添加用户Dialog弹出对话框-->
     <el-dialog title="添加用户" :visible.sync="addUserDialogVisible" width="50%" @close="resetAddUserForm">
       <!--      表单-->
-      <el-form :model="addUserForm" :rules="addUserRules" ref="addUserForm" label-width="70px" class="demo-ruleForm">
+      <el-form :model="addUserForm" :rules="addUserRules" ref="addUserFormRef" label-width="70px" class="demo-ruleForm">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="addUserForm.username"></el-input>
         </el-form-item>
@@ -95,8 +95,7 @@
 
     <!--    修改用户信息对话框-->
     <el-dialog title="修改用户信息" :visible.sync="compileUserDialogVisible" width="50%" @close="resetCompileUserForm">
-      <el-form :model="compileUserForm" :rules="compileUserFormRules" ref="compileUserFormRef" label-width="70px"
-               class="demo-ruleForm">
+      <el-form :model="compileUserForm" :rules="compileUserFormRules" ref="compileUserFormRef" label-width="70px" class="demo-ruleForm">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="compileUserForm.username" :disabled="true"></el-input>
         </el-form-item>
@@ -252,14 +251,14 @@
         this.flag = true;
         setTimeout(() => {
           this.flag = false;
-        }, 1000)
+        }, 300)
         this.getUserList()
       },
       /**
-       * 监听添加用户对话框关闭事件  清空信息
+       * 监听添加用户对话框关闭事件  清空表单信息
        */
       resetAddUserForm() {
-        this.$refs.addUserForm.resetFields();
+        this.$refs.addUserFormRef.resetFields();
       },
       /**
        * 监听编辑用户对话框关闭事件  情况信息
@@ -271,7 +270,7 @@
        * 添加用户请求
        */
       addUser() {
-        this.$refs.addUserForm.validate(async valid => {
+        this.$refs.addUserFormRef.validate(async valid => {
           if (!valid) return
           const {data: res} = await this.$http.post('users', this.addUserForm);
           // console.log(res)
