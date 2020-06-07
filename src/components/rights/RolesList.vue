@@ -51,7 +51,7 @@
           <template v-slot:default="scope">
             <el-button size="mini" type="primary" icon="el-icon-edit" @click="showCompileRolesDialog(scope.row.id)">编辑
             </el-button>
-            <el-button size="mini" type="danger" icon="el-icon-edit">删除</el-button>
+            <el-button size="mini" type="danger" icon="el-icon-edit" @click="removeRole(scope.row.id)">删除</el-button>
             <el-button size="mini" type="warning" icon="el-icon-edit" @click="showSetRightsDialogVisible(scope.row)">
               分配权限
             </el-button>
@@ -214,9 +214,9 @@
       /**
        * 监听点击修改角色按钮请求本行数据
        */
-      async showCompileRolesDialog(userId) {
+      async showCompileRolesDialog(roleId) {
         this.compileRolesDialogVisible = true;
-        const {data: res} = await this.$http.get(`roles/${userId}`);
+        const {data: res} = await this.$http.get(`roles/${roleId}`);
         if (res.meta.status !== 200) {
           return this.$message.error('查询角色信息失败！')
         } else {
@@ -256,6 +256,7 @@
           type: 'warning'
         }).catch(error => error);
         // console.log(confirmResult);
+        this.$message.closeAll()
         if (confirmResult !== 'confirm') {
           this.$message.info('取消删除');
         } else {
@@ -316,6 +317,24 @@
         this.$message.success('分配权限成功！')
         this.getRolesDataList();
         this.setRightsDialogVisible = false;
+      },
+      async removeRole(roleId) {
+        const confirmResult = await this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).catch(error => error)
+        this.$message.closeAll()
+        if (confirmResult !== "confirm") {
+          return this.$message.info('已取消删除');
+        } else {
+          const {data: res} = await this.$http.delete(`roles/${roleId}`);
+          if (res.meta.status !== 200) {
+            return this.$message.error('删除失败')
+          }
+          this.$message.success(res.meta.msg);
+          this.getRolesDataList();
+        }
       }
     }
   }
