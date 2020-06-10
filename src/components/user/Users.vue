@@ -15,7 +15,7 @@
       <el-row :gutter="20">
         <el-col :span="10">
           <!--      搜索区域-->
-          <el-input placeholder="请输入内容" v-model="queryInfo.query" :clearable="true" @clear="getUserList"
+          <el-input placeholder="请输入搜索内容" v-model="queryInfo.query" :clearable="true" @clear="getUserList"
                     @keyup.enter.native="getUserList">
             <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
           </el-input>

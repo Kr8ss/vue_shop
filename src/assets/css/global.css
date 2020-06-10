@@ -5,6 +5,7 @@ html, body, #app {
     padding: 0;
     min-width: 1366px;
 }
+
 /*
 卡片与面包屑的距离
 */
@@ -13,10 +14,14 @@ html, body, #app {
     font-size: 15px;
 }
 
+/*卡片中表格的样式*/
 .el-table {
-
     margin-top: 15px;
     margin-bottom: 15px;
     font-size: 15px;
+}
 
+/*卡片中提示信息的样式*/
+.el-alert {
+    margin-bottom: 15px;
 }
