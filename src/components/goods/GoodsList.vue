@@ -122,12 +122,18 @@
         //通过编程式导航跳转到添加商品页面，路径是/categories
         this.$router.push('/goods/add')
       },
+      /**
+       * 删除商品
+       * @param goodsId
+       * @returns {Promise<ElMessageComponent>}
+       */
       async deleteGoods(goodsId) {
         // console.log(goodsId)
         const {data: res} = await this.$http.delete(`goods/${goodsId}`);
-        if(res.meta.status !== 200){
+        this.$message.closeAll();
+        if (res.meta.status !== 200) {
           return this.$message.error('删除商品失败');
-        }else {
+        } else {
           this.$message.success(res.meta.msg);
         }
         this.getGoodsList();
