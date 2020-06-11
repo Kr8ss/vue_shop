@@ -127,8 +127,9 @@
       },
       async getParamsList() {
         const {data: res} = await this.$http.get(`categories/${this.cateId}/attributes`, {params: {sel: this.activeName}})
+        this.$message.closeAll();
         if (res.meta.status !== 200) {
-          return this.$message.error('获取分类数据失败');
+          return;
         }
 
         res.data.forEach(item => {
@@ -153,6 +154,9 @@
         // 判断必须是第三级分类才可以选择
         if (this.selectedKeys.length !== 3) {
           this.selectedKeys = [];
+          // this.LastCateList = [];
+          this.manyTableData = [];
+          this.onlyTableData = [];
           return
         } else if (this.selectedKeys.length === 3) {
           this.buttonDisabled = false;
