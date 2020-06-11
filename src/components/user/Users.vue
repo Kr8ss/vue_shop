@@ -152,7 +152,7 @@
         total: 0,
         users: [],
         flag: false,   //用于控制点击状态按钮后延时内是否可以点击
-        addUserDialogVisible: false, //提娜佳用户对话框默认隐藏
+        addUserDialogVisible: false, //添加用户对话框默认隐藏
         compileUserDialogVisible: false,  //编辑用户对话框默认隐藏
         //添加用户表单数据绑定对象
         addUserForm: {
